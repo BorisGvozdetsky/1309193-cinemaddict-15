@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
-* Студент: [Boris Gvozdetsky](https://up.htmlacademy.ru/ecmascript/15/user/1309193).
-* Наставник: `Неизвестно`.
+* Студент: [Boris Gvozdetsky](https://up.htmlacademy.ru/javascript/23/user/1309193).
+* Наставник: [Даниил Царёв](https://htmlacademy.ru/profile/id945835).
 
 ---
 
