@@ -46,8 +46,4 @@ const createStatisticsTemplate = () => (
   </section>`
 );
 
-const createFilmsEmountTemplate = () => (
-  '<p>130 291 movies inside</p>'
-);
-
-export {createStatisticsTemplate, createFilmsEmountTemplate};
+export {createStatisticsTemplate};
