@@ -1,4 +1,4 @@
-import {render, PlaceTypes} from './utils.js';
+import {render, PlaceTypes} from './dom-utils.js';
 import {createMenuTemplate} from './view/menu.js';
 import {createFilterTemplate} from './view/filter.js';
 import {createFilmsTemplate} from './view/films.js';
