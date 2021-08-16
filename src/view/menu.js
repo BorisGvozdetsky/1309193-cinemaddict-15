@@ -1,3 +1,5 @@
+import {createElement} from '../dom-utils.js';
+
 const filterTitles = {
   all: 'All Movies',
   watchlist: 'Watchlist',
@@ -25,4 +27,26 @@ const createMenuTemplate = (filterItems, activeFilter) => {
   </nav>`;
 };
 
-export {createMenuTemplate};
+export default class Menu {
+  constructor(filterItems, activeFilter) {
+    this._filterItems = filterItems;
+    this._activeFilter = activeFilter;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._filterItems, this._activeFilter);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
