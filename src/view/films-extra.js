@@ -10,12 +10,12 @@ const createFilmExtraTemplate = (title) => (
 
 export default class FilmExtra {
   constructor(title) {
-    this.title = title;
+    this._title = title;
     this._element = null;
   }
 
   getTemplate() {
-    return createFilmExtraTemplate(this.title);
+    return createFilmExtraTemplate(this._title);
   }
 
   getElement() {

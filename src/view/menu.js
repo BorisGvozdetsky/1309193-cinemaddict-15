@@ -28,14 +28,13 @@ const createMenuTemplate = (filterItems, activeFilter) => {
 };
 
 export default class Menu {
-  constructor(filterItems, activeFilter) {
-    this._filterItems = filterItems;
-    this._activeFilter = activeFilter;
+  constructor(filters) {
+    this._filter = filters;
     this._element = null;
   }
 
   getTemplate() {
-    return createMenuTemplate(this._filterItems, this._activeFilter);
+    return createMenuTemplate(this._filter, this._filter[0].name);
   }
 
   getElement() {

@@ -1,5 +1,7 @@
 import {createElement} from '../dom-utils.js';
 
+const SORT_TYPES = ['default', 'date', 'rating'];
+
 const isActiveClassName = (condition) => condition ? 'sort__button--active' : '';
 
 const createSortItemTemplate = (type, isActive) => (
@@ -13,14 +15,13 @@ const createSortTemplate = (types, activeType) => {
 };
 
 export default class Sort {
-  constructor(types, activeType) {
-    this._types = types;
-    this._activeType = activeType;
+  constructor() {
+    this._type = SORT_TYPES;
     this._element = null;
   }
 
   getTemplate() {
-    return createSortTemplate(this._types, this._activeType);
+    return createSortTemplate(this._type, this._type[0]);
   }
 
   getElement() {

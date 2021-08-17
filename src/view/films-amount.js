@@ -2,7 +2,7 @@ import {createElement} from '../dom-utils.js';
 
 const createFilmsAmountTemplate = (amount) => `<p>${amount} movies inside</p>`;
 
-export default class Amount {
+export default class FilmsAmount {
   constructor(amount) {
     this.amount = amount;
     this._element = null;

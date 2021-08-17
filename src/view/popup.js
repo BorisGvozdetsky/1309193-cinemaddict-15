@@ -2,8 +2,8 @@ import {createElement} from '../dom-utils.js';
 
 const createGenreTemplate = (genre) => `<span class="film-details__genre">${genre}</span>`;
 
-const createPopupCommentTemplate = (itm) => {
-  const {author, comment, date, emotion} = itm;
+const createPopupCommentTemplate = (item) => {
+  const {author, comment, date, emotion} = item;
   return `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img  src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
@@ -19,20 +19,11 @@ const createPopupCommentTemplate = (itm) => {
   </li>`;
 };
 
+const generateGenres = (genres) => genres.map(createGenreTemplate).join(' ');
+const generateComments = (comments) => comments.map(createPopupCommentTemplate).join(' ');
+
 const createPopupTemplate = (film) => {
   const genreTitle = film.filmInfo.genre.length > 1 ? 'Genres' : 'Genre';
-
-  const generateGenres = () => {
-    const genres = film.filmInfo.genre.map((genre) => createGenreTemplate(genre));
-    return genres.join(' ');
-  };
-
-  const generateComments = () => {
-    const comments = film.comments.map((comment) => createPopupCommentTemplate(comment));
-    return comments.join(' ');
-  };
-
-
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
       <div class="film-details__top-container">
@@ -85,7 +76,7 @@ const createPopupTemplate = (film) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">${genreTitle}</td>
-                <td class="film-details__cell">${generateGenres()}</td>
+                <td class="film-details__cell">${generateGenres(film.filmInfo.genre)}</td>
               </tr>
             </table>
 
@@ -102,7 +93,7 @@ const createPopupTemplate = (film) => {
       <div class="film-details__bottom-container">
         <section class="film-details__comments-wrap">
           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments.length}</span></h3>
-          <ul class="film-details__comments-list">${generateComments()}</ul>
+          <ul class="film-details__comments-list">${generateComments(film.comments)}</ul>
           <div class="film-details__new-comment">
             <div class="film-details__add-emoji-label"></div>
 
@@ -156,6 +147,10 @@ export default class Popup {
   }
 
   removeElement() {
+    if (this._element) {
+      this._element.parentNode.removeChild(this._element);
+    }
+
     this._element = null;
   }
 }
