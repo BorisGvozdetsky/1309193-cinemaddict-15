@@ -1,8 +1,24 @@
 const PlaceTypes = {
-  BEFORE: 'beforeend',
-  AFTER: 'afterend',
+  BEFOREEND: 'beforeend',
+  AFTERBEGIN: 'afterbegin',
 };
 
-const render = (container, template, place = PlaceTypes.BEFORE) => container.insertAdjacentHTML(place, template);
+const render = (container, element, place = PlaceTypes.BEFOREEND) => {
+  switch (place) {
+    case PlaceTypes.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case PlaceTypes.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
 
-export {render, PlaceTypes};
+const createElement = (template) => {
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export {render, createElement, PlaceTypes};

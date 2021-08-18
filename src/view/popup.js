@@ -1,3 +1,27 @@
+import {createElement} from '../dom-utils.js';
+
+const createGenreTemplate = (genre) => `<span class="film-details__genre">${genre}</span>`;
+
+const createPopupCommentTemplate = (item) => {
+  const {author, comment, date, emotion} = item;
+  return `<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+      <img  src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
+    </span>
+    <div>
+      <p class="film-details__comment-text">${comment}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${author}</span>
+        <span class="film-details__comment-day">${date}</span>
+        <button class="film-details__comment-delete">Delete</button>
+      </p>
+    </div>
+  </li>`;
+};
+
+const generateGenres = (genres) => genres.map(createGenreTemplate).join(' ');
+const generateComments = (comments) => comments.map(createPopupCommentTemplate).join(' ');
+
 const createPopupTemplate = (film) => {
   const genreTitle = film.filmInfo.genre.length > 1 ? 'Genres' : 'Genre';
   return `<section class="film-details">
@@ -50,9 +74,9 @@ const createPopupTemplate = (film) => {
                 <td class="film-details__term">Country</td>
                 <td class="film-details__cell">${film.filmInfo.release.releaseCountry}</td>
               </tr>
-              <tr class="film-details__row film-details__row-genre">
+              <tr class="film-details__row">
                 <td class="film-details__term">${genreTitle}</td>
-                <td class="film-details__cell"></td>
+                <td class="film-details__cell">${generateGenres(film.filmInfo.genre)}</td>
               </tr>
             </table>
 
@@ -69,7 +93,7 @@ const createPopupTemplate = (film) => {
       <div class="film-details__bottom-container">
         <section class="film-details__comments-wrap">
           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments.length}</span></h3>
-          <ul class="film-details__comments-list"></ul>
+          <ul class="film-details__comments-list">${generateComments(film.comments)}</ul>
           <div class="film-details__new-comment">
             <div class="film-details__add-emoji-label"></div>
 
@@ -104,4 +128,29 @@ const createPopupTemplate = (film) => {
   </section>`;
 };
 
-export {createPopupTemplate};
+export default class Popup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    if (this._element) {
+      this._element.parentNode.removeChild(this._element);
+    }
+
+    this._element = null;
+  }
+}
