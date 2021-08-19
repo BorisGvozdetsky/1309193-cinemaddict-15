@@ -8,6 +8,7 @@ import PopupView from './view/popup.js';
 import FilmsAmountView from './view/films-amount.js';
 import ShowMoreView from './view/show-more.js';
 import FilmExtraView from './view/films-extra.js';
+import NoFilmView from './view/no-film.js';
 import {generateFilmCard} from './mock/film-card.js';
 
 const FILMS_CARD_TOTAL = 15;
@@ -35,9 +36,9 @@ const filmToFilterMap = {
 };
 
 const generateFilter = (movies) => Object.entries(filmToFilterMap).map(
-  ([filterName, countTasks]) => ({
+  ([filterName, countFilms]) => ({
     name: filterName,
-    count: countTasks(movies),
+    count: countFilms(movies),
   }),
 );
 
@@ -84,42 +85,48 @@ render(mainElement, new MenuView(filters).getElement());
 
 render(mainElement, new SortView().getElement());
 
-render(mainElement, new FilmsView().getElement());
 
-const filmsElement = mainElement.querySelector('.films');
-const filmsListElement = filmsElement.querySelector('.films-list');
-const filmsContainerElement = filmsElement.querySelector('.films-list__container');
+if (films.length === 0) {
+  render(mainElement, new NoFilmView().getElement());
 
-for (let i = 0; i < Math.min(films.length, FILMS_CARD_COUNT); i++) {
-  renderFilm(filmsContainerElement, films[i]);
-}
+} else {
+  render(mainElement, new FilmsView().getElement());
 
-if (films.length > FILM_COUNT_PER_STEP) {
-  let renderedFilmCount = FILM_COUNT_PER_STEP;
+  const filmsElement = mainElement.querySelector('.films');
+  const filmsListElement = filmsElement.querySelector('.films-list');
+  const filmsContainerElement = filmsElement.querySelector('.films-list__container');
 
-  render(filmsListElement, new ShowMoreView().getElement(), PlaceTypes.BEFOREEND);
-  const showMoreButton = filmsElement.querySelector('.films-list__show-more');
+  for (let i = 0; i < Math.min(films.length, FILMS_CARD_COUNT); i++) {
+    renderFilm(filmsContainerElement, films[i]);
+  }
 
-  showMoreButton.addEventListener('click', () => {
-    films
-      .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => renderFilm(filmsContainerElement, film));
-    renderedFilmCount += FILM_COUNT_PER_STEP;
+  if (films.length > FILM_COUNT_PER_STEP) {
+    let renderedFilmCount = FILM_COUNT_PER_STEP;
+    render(filmsListElement, new ShowMoreView().getElement(), PlaceTypes.BEFOREEND);
 
-    if (renderedFilmCount >= films.length) {
-      showMoreButton.remove();
+    const showMoreButton = filmsElement.querySelector('.films-list__show-more');
+    showMoreButton.addEventListener('click', () => {
+      films
+        .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
+        .forEach((film) => renderFilm(filmsContainerElement, film));
+      renderedFilmCount += FILM_COUNT_PER_STEP;
+
+      if (renderedFilmCount >= films.length) {
+        showMoreButton.remove();
+      }
+    });
+  }
+
+  render(filmsElement, new FilmExtraView(FilmTitles.TOP).getElement());
+
+  render(filmsElement, new FilmExtraView(FilmTitles.COMMENTED).getElement());
+
+  const filmsExtraContainerElements = filmsElement.querySelectorAll('.films-list--extra .films-list__container');
+
+  for (let i = 0; i < Math.min(films.length, FILMS_LIST_EXTRA); i++) {
+    for (let j = 0; j < Math.min(films.length, FILMS_CARD_EXTRA); j++) {
+      renderFilm(filmsExtraContainerElements[i], films[j]);
     }
-  });
-}
-
-render(filmsElement, new FilmExtraView(FilmTitles.TOP).getElement());
-render(filmsElement, new FilmExtraView(FilmTitles.COMMENTED).getElement());
-
-const filmsExtraContainerElements = filmsElement.querySelectorAll('.films-list--extra .films-list__container');
-
-for (let i = 0; i < Math.min(films.length, FILMS_LIST_EXTRA); i++) {
-  for (let j = 0; j < Math.min(films.length, FILMS_CARD_EXTRA); j++) {
-    renderFilm(filmsExtraContainerElements[i], films[j]);
   }
 }
 
