@@ -1,27 +1,25 @@
-import dayjs from 'dayjs';
-
-const getRandomPositiveInteger = (a, b) => {
+export const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomInteger = (a = 0, b = 1) => {
+export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const getRandomFloatInteger = (a, b) => {
+export const getRandomFloatInteger = (a, b) => {
   const lower = Math.min(a, b);
   const upper = Math.max(a, b);
 
   return (lower + Math.random() * (upper - lower + 1)).toFixed(1);
 };
 
-const getRandomUniqueInteger = (min, max) => {
+export const getRandomUniqueInteger = (min, max) => {
   const previousValues = [];
   let currentValue = getRandomInteger(min, max);
   if (previousValues.length >= (max - min + 1)) {
@@ -34,11 +32,6 @@ const getRandomUniqueInteger = (min, max) => {
   return currentValue;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+export const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-const humanizeDate = (date) => dayjs(date).format('YYYY/MM/DD hh:mm');
-
-const shuffleArray = (elements) => elements.sort(() => 0.5 - Math.random());
-
-
-export {getRandomPositiveInteger, getRandomArrayElement, humanizeDate, shuffleArray, getRandomUniqueInteger, getRandomInteger, getRandomFloatInteger};
+export const shuffleArray = (elements) => elements.sort(() => 0.5 - Math.random());

@@ -1,4 +1,5 @@
-import {getRandomPositiveInteger, getRandomArrayElement, shuffleArray, humanizeDate, getRandomFloatInteger, getRandomUniqueInteger} from '../utils.js';
+import {getRandomPositiveInteger, getRandomArrayElement, shuffleArray, getRandomFloatInteger, getRandomUniqueInteger} from '../utils/common.js';
+import {humanizeDate} from '../utils/film.js';
 import dayjs from 'dayjs';
 
 const RATING_MAX = 9;
