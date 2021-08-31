@@ -48,7 +48,7 @@ const createStatisticsTemplate = () => (
   </section>`
 );
 
-export default class Statistic extends AbstractView {
+export default class Stats extends AbstractView {
   getTemplate() {
     return createStatisticsTemplate();
   }
