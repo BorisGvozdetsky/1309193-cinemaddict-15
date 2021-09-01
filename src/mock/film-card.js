@@ -82,21 +82,6 @@ const COUNTRIES = [
   'Greece',
 ];
 
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
 const GENRES = [
   'Musical',
   'Western',
@@ -128,21 +113,11 @@ const MESSAGES = [
   'Almost two hours? Seriously?',
 ];
 
-const DAYS = {
-  MIN: 1,
-  MAX: 28,
-};
-
 const AGE_RATING = [0, 6, 12, 18];
 
 const descriptionCount = {
   MIN: 1,
   MAX: 5,
-};
-
-const filmYear = {
-  MIN: 1895,
-  MAX: 2021,
 };
 
 const Filmduration = {
@@ -210,7 +185,7 @@ const generateFilmCard = (index) => {
       writers: writers.join(', '),
       actors: actors.join(', '),
       release: {
-        date: `${getRandomPositiveInteger(DAYS.MIN, DAYS.MAX)} ${getRandomArrayElement(MONTHS)} ${getRandomPositiveInteger(filmYear.MIN, filmYear.MAX)}`,
+        date: date,
         releaseCountry: getRandomArrayElement(COUNTRIES),
       },
       runtime: `${getRandomPositiveInteger(Filmduration.hours.MIN, Filmduration.hours.MAX)}h ${getRandomPositiveInteger(Filmduration.minutes.MIN, Filmduration.minutes.MAX)}m`,
