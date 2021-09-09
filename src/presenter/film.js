@@ -7,7 +7,7 @@ const Mode = {
   POPUP: 'POPUP',
 };
 
-const bodyElement = document.querySelector('body');
+const bodyElement = document.body;
 
 export default class Film {
   constructor(filmContainer, changeData, changeMode) {
@@ -95,6 +95,7 @@ export default class Film {
   _onDocumentKeydown(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
+      this._popupComponent.reset(this._film);
       this._closePopup();
     }
   }
