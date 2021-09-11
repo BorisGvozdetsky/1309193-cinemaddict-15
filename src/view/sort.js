@@ -22,7 +22,7 @@ export default class Sort extends AbstractView {
     return createSortTemplate();
   }
 
-  _sortActiveClassChangeHandler(button) {
+  _sortActiveClassChange(button) {
     const sortButtons = document.querySelectorAll('.sort__button');
     sortButtons.forEach((btn) => btn.classList.remove('sort__button--active'));
     button.classList.add('sort__button--active');
@@ -35,7 +35,7 @@ export default class Sort extends AbstractView {
 
     evt.preventDefault();
     this._callback.sortTypeChange(evt.target.dataset.sortType);
-    this._sortActiveClassChangeHandler(evt.target);
+    this._sortActiveClassChange(evt.target);
   }
 
   setSortTypeChangeHandler(callback) {

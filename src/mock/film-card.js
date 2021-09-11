@@ -1,4 +1,4 @@
-import {getRandomPositiveInteger, getRandomArrayElement, shuffleArray, getRandomFloatInteger, getRandomUniqueInteger} from '../utils/common.js';
+import {getRandomPositiveInteger, getRandomArrayElement, shuffleArray, getRandomFloatInteger, getRandomUniqueInteger, getRandomInteger} from '../utils/common.js';
 import {humanizeDate} from '../utils/film.js';
 import dayjs from 'dayjs';
 
@@ -120,17 +120,6 @@ const descriptionCount = {
   MAX: 5,
 };
 
-const Filmduration = {
-  hours: {
-    MIN: 1,
-    MAX: 3,
-  },
-  minutes: {
-    MIN: 0,
-    MAX: 59,
-  },
-};
-
 const actorsCount = {
   MIN: 1,
   MAX: 3,
@@ -145,6 +134,12 @@ const genreCount = {
   MIN: 1,
   MAX: 3,
 };
+
+const runtime = {
+  MIN: 80,
+  MAX: 200,
+};
+
 
 const generateDate = () => {
   const maxDaysGap = 7;
@@ -188,7 +183,7 @@ const generateFilmCard = (index) => {
         date: date,
         releaseCountry: getRandomArrayElement(COUNTRIES),
       },
-      runtime: `${getRandomPositiveInteger(Filmduration.hours.MIN, Filmduration.hours.MAX)}h ${getRandomPositiveInteger(Filmduration.minutes.MIN, Filmduration.minutes.MAX)}m`,
+      runtime: getRandomInteger(runtime.MIN, runtime.MAX),
       genre: genres,
       description: descriptions.join(' '),
     },
