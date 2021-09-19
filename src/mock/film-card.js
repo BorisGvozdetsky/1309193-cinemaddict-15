@@ -140,10 +140,9 @@ const runtime = {
   MAX: 200,
 };
 
-
 const generateDate = () => {
-  const maxDaysGap = 7;
-  const daysGap = getRandomPositiveInteger(0, maxDaysGap);
+  const maxDaysGap = -20;
+  const daysGap = getRandomInteger(0, maxDaysGap);
 
   return dayjs().add(daysGap, 'day').toDate();
 };
@@ -158,7 +157,6 @@ const generateComment = () => {
     emotion: (getRandomArrayElement(EMOJI)),
   };
 };
-
 
 const generateFilmCard = (index) => {
   const comments = new Array(getRandomPositiveInteger(0, COMMENTS_AMOUNT)).fill(null).map(generateComment);

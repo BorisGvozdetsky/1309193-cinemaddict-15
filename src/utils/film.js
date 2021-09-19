@@ -1,5 +1,14 @@
 import dayjs from 'dayjs';
 
+import {getRandomInteger} from './common.js';
+
+export const generateDate = () => {
+  const maxDaysGap = 7;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+
+  return dayjs().add(daysGap, 'day').toDate();
+};
+
 export const humanizeDate = (date) => dayjs(date).format('YYYY/MM/DD hh:mm');
 
 export const humanizeDatePopup = (date) => dayjs(date).format('DD MMMM YYYY');
