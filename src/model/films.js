@@ -1,18 +1,18 @@
 import AbstractObserver from '../utils/abstract-observer.js';
 
-export default class Films extends AbstractObserver {
+class Films extends AbstractObserver {
   constructor() {
     super();
     this._films = [];
   }
 
+  getFilms() {
+    return this._films;
+  }
+
   setFilms(updateType, films) {
     this._films = films.slice();
     this._notify(updateType);
-  }
-
-  getFilms() {
-    return this._films;
   }
 
   updateFilm(updateType, update) {
@@ -135,3 +135,5 @@ export default class Films extends AbstractObserver {
     return adaptedFilm;
   }
 }
+
+export default Films;

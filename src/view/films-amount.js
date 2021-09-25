@@ -2,7 +2,7 @@ import AbstractView from './abstract.js';
 
 const createFilmsAmountTemplate = (amount) => `<p>${amount} movies inside</p>`;
 
-export default class FilmsAmount extends AbstractView {
+class FilmsAmount extends AbstractView {
   constructor(amount) {
     super();
     this._amount = amount;
@@ -12,3 +12,5 @@ export default class FilmsAmount extends AbstractView {
     return createFilmsAmountTemplate(this._amount);
   }
 }
+
+export default FilmsAmount;

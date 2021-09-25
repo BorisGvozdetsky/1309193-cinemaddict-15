@@ -1,7 +1,7 @@
 import AbstractView from './abstract.js';
 import {FilterType} from '../const.js';
 
-const NoFilmTextType = {
+const noFilmTextType = {
   [FilterType.ALL]: 'There are no movies in our database',
   [FilterType.WATCHLIST]: 'There are no movies to watch now',
   [FilterType.HISTORY]: 'There are no watched movies now',
@@ -9,7 +9,7 @@ const NoFilmTextType = {
 };
 
 const createEmptyTemplate = (filterType) => {
-  const noFilmTextValue = NoFilmTextType[filterType];
+  const noFilmTextValue = noFilmTextType[filterType];
   return (
     `<section class="films">
       <section class="films-list">
@@ -18,7 +18,7 @@ const createEmptyTemplate = (filterType) => {
     </section>`);
 };
 
-export default class NoFilm extends AbstractView {
+class NoFilm extends AbstractView {
   constructor(data) {
     super();
 
@@ -29,3 +29,5 @@ export default class NoFilm extends AbstractView {
     return createEmptyTemplate(this._data);
   }
 }
+
+export default NoFilm;

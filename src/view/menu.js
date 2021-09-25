@@ -20,7 +20,7 @@ const createMenuTemplate = (filterItems, currentFilterType) => {
   </nav>`;
 };
 
-export default class Menu extends AbstractView {
+class Menu extends AbstractView {
   constructor(filters, currentFilterType) {
     super();
     this._filters = filters;
@@ -32,6 +32,17 @@ export default class Menu extends AbstractView {
 
   getTemplate() {
     return createMenuTemplate(this._filters, this._currentFilter);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().querySelector('.main-navigation__items').addEventListener('click', this._filterTypeChangeHandler);
+  }
+
+  setMenuTypeChangeHandler(callback) {
+    this._callback.menuTypeChange = callback;
+    this.getElement().querySelector('.main-navigation__items').addEventListener('click', this._menuTypeChangeHandler);
+    this.getElement().querySelector('.main-navigation__additional').addEventListener('click', this._menuTypeChangeHandler);
   }
 
   _filterTypeChangeHandler(evt) {
@@ -47,15 +58,6 @@ export default class Menu extends AbstractView {
       this._callback.menuTypeChange(evt.target.dataset.menuType);
     }
   }
-
-  setFilterTypeChangeHandler(callback) {
-    this._callback.filterTypeChange = callback;
-    this.getElement().querySelector('.main-navigation__items').addEventListener('click', this._filterTypeChangeHandler);
-  }
-
-  setMenuTypeChangeHandler(callback) {
-    this._callback.menuTypeChange = callback;
-    this.getElement().querySelector('.main-navigation__items').addEventListener('click', this._menuTypeChangeHandler);
-    this.getElement().querySelector('.main-navigation__additional').addEventListener('click', this._menuTypeChangeHandler);
-  }
 }
+
+export default Menu;

@@ -1,20 +1,14 @@
 import {render, remove, replace} from '../utils/render.js';
 import FilmCardView from '../view/film-card.js';
 import PopupView from '../view/popup.js';
-import {UserAction, UpdateType, FilterType} from '../const.js';
+import {UserAction, UpdateType, FilterType, State} from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
   POPUP: 'POPUP',
 };
 
-export const State = {
-  SAVING: 'SAVING',
-  DELETING: 'DELETING',
-  ABORTING: 'ABORTING',
-};
-
-export default class Film {
+class Film {
   constructor (filmContainer, changeData, changeMode, filmsModel, api) {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
@@ -28,13 +22,54 @@ export default class Film {
 
     this._handleOpenPopup = this._handleOpenPopup.bind(this);
     this._handleClosePopup = this._handleClosePopup.bind(this);
-    this._onDocumentKeydown = this._onDocumentKeydown.bind(this);
+    this._documentKeydownHandler = this._documentKeydownHandler.bind(this);
 
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleAlreadyWatchedClick = this._handleAlreadyWatchedClick.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleCommentDelete = this._handleCommentDelete.bind(this);
     this._handleCommentAdd = this._handleCommentAdd.bind(this);
+  }
+
+  _getComments() {
+    this._api.getComments(this._film)
+      .then((comments) => {
+        this._filmsModel.comments = comments;
+        this._popupComponent.setComments(comments);
+      });
+  }
+
+  setViewState(state) {
+    if (this._mode === Mode.DEFAULT) {
+      return;
+    }
+    const resetFormState = () => {
+      this._popupComponent.updateData({
+        isDisabled: false,
+        isDeleting: false,
+      });
+    };
+
+    switch (state) {
+      case State.SAVING: {
+        this._popupComponent.updateData({
+          isDisabled: true,
+        });
+        break;
+      }
+      case State.DELETING: {
+        this._popupComponent.updateData({
+          isDisabled: true,
+          isDeleting: true,
+        });
+        break;
+      }
+      case State.ABORTING: {
+        this._filmComponent.shake(resetFormState);
+        this._popupComponent.shake(resetFormState);
+        break;
+      }
+    }
   }
 
   init(film) {
@@ -92,69 +127,24 @@ export default class Film {
     }
   }
 
-  setViewState(state) {
-    if (this._mode === Mode.DEFAULT) {
-      return;
-    }
-    const resetFormState = () => {
-      this._popupComponent.updateData({
-        isDisabled: false,
-        isDeleting: false,
-      });
-    };
-
-    switch (state) {
-      case State.SAVING:
-        this._popupComponent.updateData({
-          isDisabled: true,
-        });
-        break;
-      case State.DELETING:
-        this._popupComponent.updateData({
-          isDisabled: true,
-          isDeleting: true,
-        });
-        break;
-      case State.ABORTING:
-        this._filmComponent.shake(resetFormState);
-        this._popupComponent.shake(resetFormState);
-        break;
-    }
-  }
-
-  _getComments() {
-    this._api.getComments(this._film)
-      .then((comments) => {
-        this._filmsModel.comments = comments;
-        this._popupComponent.setComments(comments);
-      });
-  }
-
   _openPopup() {
     this._closePopup();
     this._getComments();
     render(this._popupContainer, this._popupComponent);
     this._popupContainer.classList.add('hide-overflow');
-    document.addEventListener('keydown', this._onDocumentKeydown);
+    document.addEventListener('keydown', this._documentKeydownHandler);
     this._popupComponent.reset(this._film);
     this._changeMode();
     this._mode = Mode.POPUP;
   }
 
   _closePopup() {
-    const currentPopup = document.querySelector('.film-details');
-    if (currentPopup) {
-      currentPopup.remove();
+    const currentPopupElement = document.querySelector('.film-details');
+    if (currentPopupElement) {
+      currentPopupElement.remove();
       this._popupContainer.classList.remove('hide-overflow');
-      document.removeEventListener('keydown', this._onDocumentKeydown);
+      document.removeEventListener('keydown', this._documentKeydownHandler);
       this._mode = Mode.DEFAULT;
-    }
-  }
-
-  _onDocumentKeydown(evt) {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      this._closePopup();
     }
   }
 
@@ -237,4 +227,13 @@ export default class Film {
       this._film,
     );
   }
+
+  _documentKeydownHandler(evt) {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this._closePopup();
+    }
+  }
 }
+
+export default Film;

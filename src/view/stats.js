@@ -130,7 +130,7 @@ const createStatsTemplate = (data) => {
   </section>`;
 };
 
-export default class Stats extends SmartView {
+class Stats extends SmartView {
   constructor(films) {
     super();
 
@@ -151,12 +151,52 @@ export default class Stats extends SmartView {
     this._setInnerHandlers();
   }
 
-  removeElement() {
-    super.removeElement();
-  }
-
   getTemplate() {
     return createStatsTemplate(this._data);
+  }
+
+  _getStatsPeriod(period) {
+    switch (period) {
+      case 'today': {
+        return StatsPeriod.TODAY;
+      }
+      case 'week': {
+        return StatsPeriod.WEEK;
+      }
+      case 'month': {
+        return StatsPeriod.MOUNTH;
+      }
+      case 'year': {
+        return StatsPeriod.YEAR;
+      }
+      case 'all-time': {
+        return StatsPeriod.ALLTIME;
+      }
+    }
+  }
+
+  _setCharts() {
+    if (this._chart !== null) {
+      this._chart = null;
+    }
+
+    const {films, dateFrom, dateTo, check} = this._data;
+
+    Array.from(this.getElement().querySelector('.statistic__filters').children)
+      .find((child) => child.value === check).checked = true;
+
+    const filmsInPeriod = getFilmsInPeriod(dateFrom, dateTo, films);
+    const statsCtxElement = this.getElement().querySelector('.statistic__chart');
+
+    this._chart = renderChart(statsCtxElement, filmsInPeriod);
+  }
+
+  _setInnerHandlers() {
+    this.getElement().querySelector('.statistic__filters').addEventListener('change', this._rangeChangeHandler);
+  }
+
+  removeElement() {
+    super.removeElement();
   }
 
   restoreHandlers() {
@@ -181,39 +221,6 @@ export default class Stats extends SmartView {
       check: evt.target.value,
     });
   }
-
-  _getStatsPeriod(period) {
-    switch (period) {
-      case 'today':
-        return StatsPeriod.TODAY;
-      case 'week':
-        return StatsPeriod.WEEK;
-      case 'month':
-        return StatsPeriod.MOUNTH;
-      case 'year':
-        return StatsPeriod.YEAR;
-      case 'all-time':
-        return StatsPeriod.ALLTIME;
-    }
-  }
-
-  _setCharts() {
-    if (this._chart !== null) {
-      this._chart = null;
-    }
-
-    const {films, dateFrom, dateTo, check} = this._data;
-
-    Array.from(this.getElement().querySelector('.statistic__filters').children)
-      .find((child) => child.value === check).checked = true;
-
-    const filmsInPeriod = getFilmsInPeriod(dateFrom, dateTo, films);
-    const statsCtx = this.getElement().querySelector('.statistic__chart');
-
-    this._chart = renderChart(statsCtx, filmsInPeriod);
-  }
-
-  _setInnerHandlers() {
-    this.getElement().querySelector('.statistic__filters').addEventListener('change', this._rangeChangeHandler);
-  }
 }
+
+export default Stats;

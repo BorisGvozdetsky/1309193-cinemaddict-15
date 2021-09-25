@@ -29,15 +29,17 @@ let statisticsComponent = null;
 
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
-    case MenuItem.FILMS:
+    case MenuItem.FILMS: {
       filmsPresenter.init();
       remove(statisticsComponent);
       break;
-    case MenuItem.STATISTICS:
+    }
+    case MenuItem.STATISTICS: {
       filmsPresenter.destroy();
       statisticsComponent = new StatsView(filmsModel.getFilms());
       render(mainElement, statisticsComponent);
       break;
+    }
   }
 };
 

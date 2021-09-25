@@ -1,42 +1,42 @@
-export const EMOJIS = [
+const EMOJIS = [
   'smile',
   'sleeping',
   'puke',
   'angry',
 ];
 
-export const SortType = {
+const SortType = {
   DEFAULT: 'default',
   DATE: 'date',
   RATING: 'rating',
 };
 
-export const UserAction = {
+const UserAction = {
   UPDATE_FILM: 'UPDATE_FILM',
   ADD_COMMENT: 'ADD_COMMENT',
   DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
-export const UpdateType = {
+const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
 };
 
-export const FilterType = {
+const FilterType = {
   ALL: 'all',
   WATCHLIST: 'watchlist',
   HISTORY: 'areadyWatched',
   FAVORITES: 'favorites',
 };
 
-export const MenuItem = {
+const MenuItem = {
   FILMS: 'FILMS',
   STATISTICS: 'STATISTICS',
 };
 
-export const StatsPeriod = {
+const StatsPeriod = {
   ALLTIME: 30000,
   TODAY: 1,
   WEEK: 6,
@@ -44,14 +44,23 @@ export const StatsPeriod = {
   YEAR: 365,
 };
 
-export const WatchedFilm = {
+const WatchedFilm = {
   ZERO: 0,
   MIN: 10,
   MAX: 20,
 };
 
-export const UserRank = {
+const UserRank = {
   NOVICE: 'Novice',
   FAN: 'Fan',
   MOVIE_BUFF: 'Movie Buff',
 };
+
+const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING',
+  ABORTING: 'ABORTING',
+};
+
+
+export {EMOJIS, SortType, UserAction, UpdateType, FilterType, MenuItem, StatsPeriod, WatchedFilm, UserRank, State};

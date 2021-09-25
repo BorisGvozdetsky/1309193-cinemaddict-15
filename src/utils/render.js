@@ -1,12 +1,12 @@
 import Abstract from '../view/abstract.js';
 
-export const RenderPosition = {
+const RenderPosition = {
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
   BEFOREBEGIN: 'beforebegin',
 };
 
-export const render = (container, child, place = RenderPosition.BEFOREEND) => {
+const render = (container, child, place = RenderPosition.BEFOREEND) => {
   if (container instanceof Abstract) {
     container = container.getElement();
   }
@@ -16,26 +16,29 @@ export const render = (container, child, place = RenderPosition.BEFOREEND) => {
   }
 
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case RenderPosition.AFTERBEGIN: {
       container.prepend(child);
       break;
-    case RenderPosition.BEFOREEND:
+    }
+    case RenderPosition.BEFOREEND: {
       container.append(child);
       break;
-    case RenderPosition.BEFOREBEGIN:
+    }
+    case RenderPosition.BEFOREBEGIN: {
       container.parentNode.insertBefore(child, container);
       break;
+    }
   }
 };
 
-export const createElement = (template) => {
+const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
 
   return newElement.firstChild;
 };
 
-export const replace = (newChild, oldChild) => {
+const replace = (newChild, oldChild) => {
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.getElement();
   }
@@ -53,7 +56,7 @@ export const replace = (newChild, oldChild) => {
   parent.replaceChild(newChild, oldChild);
 };
 
-export const remove = (component) => {
+const remove = (component) => {
   if (component === null) {
     return;
   }
@@ -65,3 +68,5 @@ export const remove = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
+
+export {RenderPosition, render, createElement, replace, remove};
